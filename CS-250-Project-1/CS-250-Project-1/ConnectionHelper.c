@@ -85,7 +85,6 @@ void getqotd(){
     printf("|-------------------------------------------------------------------------|\n");
     printf("|   Quote Of The Day:%s\n",QOTD);
     printf("|-------------------------------------------------------------------------|\n");
-    
     do{
         printf("|-----------------------------------------------------|\n");
         printf("|                Quote Of The Day Menu                |\n");
@@ -129,12 +128,54 @@ void getqotd(){
     //sendandrecieve(sockfd, message, output, servaddr);
     return;
 }
-
-
-
-
-
-
+void getcountrycode(int code){
+    int sockfd;
+    struct sockaddr_in servaddr;
+    // Creating socket file descriptor
+    memset(&servaddr, 0, sizeof(servaddr));
+    // Filling server information
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(PORT);
+    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    char message[11];
+    sprintf(message, "IDCC%d",code);
+    char output5[MAXLINE];
+    sendandrecieve(sockfd, message, output5, servaddr);
+    printf("The Countrys Code Is: %s\n",output5);
+    return;
+}
+void getcountryname(int code){
+    int sockfd;
+    struct sockaddr_in servaddr;
+    // Creating socket file descriptor
+    memset(&servaddr, 0, sizeof(servaddr));
+    // Filling server information
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(PORT);
+    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    char message[11];
+    sprintf(message, "IDCN%d",code);
+    char output5[MAXLINE];
+    sendandrecieve(sockfd, message, output5, servaddr);
+    printf("The Countrys Name Is: %s\n",output5);
+    return;
+}
+void getcountrycon(int code){
+    int sockfd;
+    struct sockaddr_in servaddr;
+    // Creating socket file descriptor
+    memset(&servaddr, 0, sizeof(servaddr));
+    // Filling server information
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(PORT);
+    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    char message[11];
+    sprintf(message, "IDCO%d",code);
+    char output5[MAXLINE];
+    sendandrecieve(sockfd, message, output5, servaddr);
+    printf("The Country belongs To Contaninte: %s\n",output5);
+    return;
+}
 void sendandrecieve(int sockfd,char input[],char output[],struct sockaddr_in servaddr){
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("socket creation failed");
@@ -147,21 +188,12 @@ void sendandrecieve(int sockfd,char input[],char output[],struct sockaddr_in ser
     }
     CaesarCipher(1,input);
     write(sockfd, input, strlen(input));//send the tcp encripted message to the server
-    read(sockfd, output, MAXLINE);//receive the tcp encripted message from the server
+   ssize_t count = read(sockfd, output, MAXLINE);//receive the tcp encripted message from the server
+    output[count] = '\0';
     CaesarCipher(2,output);
     close(sockfd);
     return;
 }
-
-
-
-
-
-
-
-
-
-
 int recieveint(int sockfd,struct sockaddr_in servaddr){
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("socket creation failed");

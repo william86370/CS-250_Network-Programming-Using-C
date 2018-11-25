@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		10AC31BA21A3CD9C00678A7A /* yuh2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = yuh2; sourceTree = BUILT_PRODUCTS_DIR; };
 		10AC31BD21A3CD9C00678A7A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		10BE441221AB2DA600FFB80C /* Country_DB.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = Country_DB.csv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				10AC31BD21A3CD9C00678A7A /* main.c */,
+				10BE441221AB2DA600FFB80C /* Country_DB.csv */,
 			);
 			path = yuh2;
 			sourceTree = "<group>";

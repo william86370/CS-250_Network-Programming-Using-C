@@ -16,43 +16,36 @@
 #define MAXLINE 1024
 int main()
 {
-    int sockfd;
-    char buffer[MAXLINE];
-    char* message = "LLS";
-    struct sockaddr_in servaddr;
-    
-    int n, len;
-    // Creating socket file descriptor
-    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        printf("socket creation failed");
-        exit(0);
+    char buffer[]="IDCC302672";
+    if (strncmp(buffer, "IDCC", 4) == 0) {
+        char countryid[MAXLINE] ;
+        sscanf(buffer, "IDCC%s", &countryid);
+        char line[256];
+        bzero(line, sizeof(line));
+        char filename[] = "Country_DB.csv";
+        FILE *file = fopen(filename, "r");
+        if ( file != NULL )
+        {
+            while (fgets(line, sizeof line, file) != NULL) /* read a line */
+            {
+                if (strncmp(line,countryid , 6) == 0) {
+                    
+                    int cid=0;
+                    char cname[80];
+                    char countrycode[3];
+                    char ccon[3];
+                    sscanf(line,"%d,%2[^,],%80[^,],%2[^,]",&cid,countrycode,cname,ccon);
+                    //printf("%d,%s,%s,%s\n",cid,countrycode,cname,ccon);
+                    printf("%s\n",ccon);
+                }
+            }
+            fclose(file);
+        }
+        else
+        {
+            //file doesn't exist
+            
+            exit(1);
+        }
     }
-    
-    memset(&servaddr, 0, sizeof(servaddr));
-    
-    // Filling server information
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(PORT);
-    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    
-    if (connect(sockfd, (struct sockaddr*)&servaddr,
-                sizeof(servaddr)) < 0) {
-        printf("\n Error : Connect Failed \n");
-    }
-    
-    memset(buffer, 0, sizeof(buffer));
-    
-    write(sockfd, message, sizeof(buffer));
-    printf("Message from server: ");
-
-    int received_int = 0;
-    
-     n = read(sockfd, &received_int, sizeof(received_int));
-    if (n > 0) {
-        fprintf(stdout, "Received int = %d\n", ntohl(received_int));
-    }
-    else {
-        // Handling erros here
-    }
-    close(sockfd);
 }

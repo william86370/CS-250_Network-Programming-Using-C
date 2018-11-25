@@ -23,8 +23,12 @@ int max(int x, int y)
     else
         return y;
 }
+void lookupid(int countryid,char cname[80],char countrycode[3],char ccon[3]);
+int CaesarCipher(int option, char str[]);
+void writepipe(int fd,char input[],int len);
+void readpipe(int fd,char output[MAXLINE]);
 int array_to_num(int arr[],int n);
-void sendmessage(int sockfd,char input[]);
+void sendmessage(int sockfd,char input[],int len);
 void sendandrecieve(int sockfd,char input[],char output[]);
 int main()
 {
@@ -49,8 +53,8 @@ int main()
     // Close the file
     fclose(fp);
     
-    int * reactionarraylike[100] = { 0 };;
-    int * reactionarraydislike[100] = { 0 };;
+    int reactionarraylike[100] = { 0 };;
+    int reactionarraydislike[100] = { 0 };;
     
     
     int listenfd, connfd, udpfd, nready, maxfdp1;
@@ -103,6 +107,12 @@ int main()
     maxfdp1 = max(listenfd, udpfd) + 1;
     int lastsentline= 0;
     for (;;) {
+        //added piping so child could talk to parent
+        int fd[2];
+        if ( pipe(fd) < 0 ) {
+            perror( "pipe" );
+        }
+        printf("--------------------------\n");
         printf("Waiting For Connection....\n");
         // set listenfd and udpfd in readset
         FD_SET(listenfd, &rset);
@@ -115,45 +125,44 @@ int main()
         // it by accepting the connection
         if (FD_ISSET(listenfd, &rset)) {
             len = sizeof(cliaddr);
-           // printf("Found New TCP Connection\n");
-           //  printf("Connecting To: %s\n",inet_ntoa(cliaddr.sin_addr));
-            
             connfd = accept(listenfd, (struct sockaddr*)&cliaddr, &len);
             fcntl(connfd, F_SETFL, O_NONBLOCK);
             if ((childpid = fork()) == 0) {
                 close(listenfd);
+                //close the other pipe
+                close(fd[0]);
                 
                 bzero(buffer, sizeof(buffer));
                 printf("Connected To: %s\n",inet_ntoa(cliaddr.sin_addr));
                 read(connfd, buffer, sizeof(buffer));
                 CaesarCipher(2,buffer);
-               // printf("%s\n",buffer);
+                writepipe(fd[1], buffer,sizeof(buffer));
                 if (strncmp(buffer, "LIKE", 4) == 0) {
                     int count3=0;
-                    int n = sscanf(buffer, "LIKE%d", &count3);
+                     sscanf(buffer, "LIKE%d", &count3);
                     printf("the line is%d was added\n",count3);
                     reactionarraylike[count3]++;
                     printf("%s Liked the Quote Of the Day\n",inet_ntoa(cliaddr.sin_addr));
                     char input[]="Liked Message";
-                    sendmessage(connfd,input);
+                    sendmessage(connfd,input,strlen(input));
                     shutdown(connfd,0);
-                    exit(1);
+                    _Exit(4);
                 }
                 if (strncmp(buffer, "DISLIKE", 7) == 0) {
                     int count3=0;
-                    int n = sscanf(buffer, "DISLIKE%d", &count3);
+                     sscanf(buffer, "DISLIKE%d", &count3);
                     printf("the line %d was disliked\n",count3);
                     reactionarraydislike[count3]++;
                     printf("%s Disliked the Quote Of the Day\n",inet_ntoa(cliaddr.sin_addr));
                     char input[]="Disliked Message";
-                    sendmessage(connfd,input);
+                    sendmessage(connfd,input,strlen(input));
                     shutdown(connfd,0);
-                    exit(count3);/////////////////
+                    exit(1);
                 }
                 if(strcmp(buffer,"EXIT") == 0){
                     printf("\nDisconnected From %s \n",inet_ntoa(cliaddr.sin_addr));
                     char input[]="Killing";
-                    sendmessage(connfd,input);
+                    sendmessage(connfd,input,strlen(input));
                     shutdown(connfd,0);
                     exit(1);
                 }
@@ -176,8 +185,12 @@ int main()
                     char filename[] = "Quote_File.txt";
                     int num=1;//our random number
                     time_t t;//random number timer
+                    //we have a while loop to deal with the dislikes quotes and see if we are sending the user a disliked quote
+                    do{
                     srand((unsigned) time(&t));
-                    num = rand()%43;
+                    num = rand()%count2;
+                    }while(reactionarraydislike[num]==1);
+                    //when we have a quote that isnt disliked we send it to the client
                     FILE *file = fopen(filename, "r");
                     int count = 0;/* or other suitable maximum line size */
                     if ( file != NULL )
@@ -207,27 +220,135 @@ int main()
                     {
                         //file doesn't exist
                         close(connfd);
-                        exit("[Child] File Dosent Exit");
+                        exit(1);
+                    }
+                }
+                //get county code from ID
+                if (strncmp(buffer, "IDCC", 4) == 0) {
+                    char countryid[MAXLINE] ;
+                    sscanf(buffer, "IDCC%s", &countryid);
+                    char line[256];
+                    bzero(line, sizeof(line));
+                    char filename[] = "Country_DB.csv";
+                    FILE *file = fopen(filename, "r");
+                    if ( file != NULL )
+                    {
+                        while (fgets(line, sizeof line, file) != NULL)
+                        {
+                            if (strncmp(line,countryid, 6) == 0) {
+                                int cid=0;
+                                char cname[80];
+                                char countrycode[3];
+                                char ccon[3];
+                                sscanf(line,"%d,%2[^,],%80[^,],%2[^,]",&cid,countrycode,cname,ccon);
+                                printf("Sent Country Code: %s : to %s\n",countrycode,inet_ntoa(cliaddr.sin_addr));
+                                sendmessage(connfd,countrycode,strlen(countrycode));
+                                printf("Disconnected From %s \n",inet_ntoa(cliaddr.sin_addr));
+                                exit(1);
+                                
+                            }
+                        }
+                        fclose(file);
+                    }
+                    else
+                    {
+                        //file doesn't exist
+                        close(connfd);
+                        exit(1);
                     }
                     
                 }
-                
-                
+                //end
+                if (strncmp(buffer, "IDCO", 4) == 0) {
+                    char countryid[MAXLINE] ;
+                    sscanf(buffer, "IDCO%s", &countryid);
+                    char line[256];
+                    bzero(line, sizeof(line));
+                    char filename[] = "Country_DB.csv";
+                    FILE *file = fopen(filename, "r");
+                    if ( file != NULL )
+                    {
+                        while (fgets(line, sizeof line, file) != NULL)
+                        {
+                            if (strncmp(line,countryid, 6) == 0) {
+                                int cid=0;
+                                char cname[80];
+                                char countrycode[3];
+                                char ccon[3];
+                                sscanf(line,"%d,%2[^,],%80[^,],%2[^,]",&cid,countrycode,cname,ccon);
+                                printf("Sent Country Continante: %s : to %s\n",ccon,inet_ntoa(cliaddr.sin_addr));
+                                sendmessage(connfd,ccon,strlen(ccon));
+                                printf("Disconnected From %s \n",inet_ntoa(cliaddr.sin_addr));
+                                exit(1);
+                            }
+                        }
+                        fclose(file);
+                    }
+                    else
+                    {
+                        //file doesn't exist
+                        close(connfd);
+                        exit(1);
+                    }
+                }
+                //get name from id
+                if (strncmp(buffer, "IDCN", 4) == 0) {
+                    char countryid[MAXLINE] ;
+                    sscanf(buffer, "IDCN%s", &countryid);
+                    char line[256];
+                    bzero(line, sizeof(line));
+                    char filename[] = "Country_DB.csv";
+                    FILE *file = fopen(filename, "r");
+                    if ( file != NULL )
+                    {
+                        while (fgets(line, sizeof line, file) != NULL)
+                        {
+                            if (strncmp(line,countryid, 6) == 0) {
+                                int cid=0;
+                                char cname[80];
+                                char countrycode[3];
+                                char ccon[3];
+                                sscanf(line,"%d,%2[^,],%80[^,],%2[^,]",&cid,countrycode,cname,ccon);
+                                 printf("Sent Country Name: %s : to %s\n",countrycode,inet_ntoa(cliaddr.sin_addr));
+                                sendmessage(connfd,cname,strlen(cname));
+                                printf("Disconnected From %s \n",inet_ntoa(cliaddr.sin_addr));
+                                exit(1);
+                                
+                            }
+                        }
+                        fclose(file);
+                    }
+                    else
+                    {
+                        //file doesn't exist
+                        close(connfd);
+                        exit(1);
+                    }
+                    
+                }
                 shutdown(connfd,0);
                 exit(1);
             }
-           // printf("[Parent]Waiting For child to exit...\n");
+            //parent handleing
+            //close our lissiner and write pipe
             close(connfd);
+            close(fd[1]);
+            //read the pipe from the child
+            char buff[MAXLINE];
+            readpipe(fd[0], buff);
+            if (strncmp(buff, "LIKE", 4) == 0) {
+                int count3=0;
+                sscanf(buff, "LIKE%d", &count3);
+                reactionarraylike[count3]++;
+            }
+            if (strncmp(buff, "DISLIKE", 7) == 0) {
+                int count3=0;
+                sscanf(buff, "DISLIKE%d", &count3);
+                reactionarraydislike[count3]++;
+            }
+            //here we wait for the child tcp connnection to finnish
             int status;
             waitpid(childpid, &status, 0);
-            if ( WIFEXITED(status) )
-            {
-                int exit_status = WEXITSTATUS(status);
-                printf("Exit status of the child was %d\n",
-                       exit_status);
-            }
-            
-            
         }
         // if udp socket is readable receive the message.
         if (FD_ISSET(udpfd, &rset)) {
@@ -271,9 +392,9 @@ void sendandrecieve(int sockfd,char input[],char output[]){
     close(sockfd);
     return;
 }
-void sendmessage(int sockfd,char input[]){
+void sendmessage(int sockfd,char input[],int len){
     CaesarCipher(1,input);
-    write(sockfd, input, strlen(input));//receive the tcp encripted message from the server
+    write(sockfd, input, len);//receive the tcp encripted message from the server
     close(sockfd);
 }
 int array_to_num(int arr[],int n){
@@ -287,4 +408,42 @@ int array_to_num(int arr[],int n){
     i = atoi(number);
      printf("%d:is the  umber returned",i);
     return i;
+}
+//added functions to allow talking between child and parent
+void writepipe(int fd,char input[],int len){
+    write(fd,input,len);
+    return;
+}
+void readpipe(int fd,char output[MAXLINE]){
+    ssize_t count = read(fd,output,MAXLINE-1 );
+    if ( count <= 0 ) {
+        perror( "read" );
+        return;
+    }
+    output[count] = '\0';
+    return;
+}
+void lookupid(int countryid,char cname[80],char countrycode[3],char ccon[3]){
+    char line[256];
+    bzero(line, sizeof(line));
+    char filename[] = "Country_DB.csv";
+    FILE *file = fopen(filename, "r");
+    if ( file != NULL )
+    {
+        while (fgets(line, sizeof line, file) != NULL) /* read a line */
+        {
+            if (strncmp(line,countryid , 6) == 0) {
+                int cid =0;
+                sscanf(line,"%d,%2[^,],%80[^,],%2[^,]",&cid,countrycode,cname,ccon);
+                return;
+            }
+        }
+        fclose(file);
+    }
+    else
+    {
+        //file doesn't exist
+        return;
+    }
+    
 }
