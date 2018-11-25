@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>CS-250-Project-1.xcscheme_^#shared#^_</key>
+		<key>CS-250_Lab5_client.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1037C495219E599B005314FB</key>
+		<key>10F9DD6C21A6321900303D48</key>
 		<dict>
 			<key>primary</key>
 			<true/>

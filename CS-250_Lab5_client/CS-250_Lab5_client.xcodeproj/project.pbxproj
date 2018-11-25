@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		100AAECB219E6C880023B699 /* ConnectionHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 100AAECA219E6C880023B699 /* ConnectionHelper.c */; };
-		10356DC821A3480600FC0716 /* CaesarCipher.c in Sources */ = {isa = PBXBuildFile; fileRef = 10356DC721A3480600FC0716 /* CaesarCipher.c */; };
-		1037C49A219E599B005314FB /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 1037C499219E599B005314FB /* main.c */; };
+		10F9DD7B21A6323800303D48 /* DieWithError.c in Sources */ = {isa = PBXBuildFile; fileRef = 10F9DD7721A6323700303D48 /* DieWithError.c */; };
+		10F9DD7C21A6323800303D48 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 10F9DD7821A6323800303D48 /* Makefile */; };
+		10F9DD7E21A6323800303D48 /* EchoClientUDP.c in Sources */ = {isa = PBXBuildFile; fileRef = 10F9DD7A21A6323800303D48 /* EchoClientUDP.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		1037C494219E599B005314FB /* CopyFiles */ = {
+		10F9DD6B21A6321900303D48 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -25,14 +25,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		100AAECA219E6C880023B699 /* ConnectionHelper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConnectionHelper.c; sourceTree = "<group>"; };
-		10356DC721A3480600FC0716 /* CaesarCipher.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CaesarCipher.c; sourceTree = "<group>"; };
-		1037C496219E599B005314FB /* CS-250-Project-1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CS-250-Project-1"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1037C499219E599B005314FB /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		10F9DD6D21A6321900303D48 /* CS-250_Lab5_client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CS-250_Lab5_client"; sourceTree = BUILT_PRODUCTS_DIR; };
+		10F9DD7721A6323700303D48 /* DieWithError.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = DieWithError.c; path = "../../Lab-5/DieWithError.c"; sourceTree = "<group>"; };
+		10F9DD7821A6323800303D48 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = "../../Lab-5/Makefile"; sourceTree = "<group>"; };
+		10F9DD7A21A6323800303D48 /* EchoClientUDP.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = EchoClientUDP.c; path = "../../Lab-5/EchoClientUDP.c"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1037C493219E599B005314FB /* Frameworks */ = {
+		10F9DD6A21A6321900303D48 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,98 +42,98 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1037C48D219E599B005314FB = {
+		10F9DD6421A6321900303D48 = {
 			isa = PBXGroup;
 			children = (
-				1037C498219E599B005314FB /* CS-250-Project-1 */,
-				1037C497219E599B005314FB /* Products */,
+				10F9DD6F21A6321900303D48 /* CS-250_Lab5_client */,
+				10F9DD6E21A6321900303D48 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		1037C497219E599B005314FB /* Products */ = {
+		10F9DD6E21A6321900303D48 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1037C496219E599B005314FB /* CS-250-Project-1 */,
+				10F9DD6D21A6321900303D48 /* CS-250_Lab5_client */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1037C498219E599B005314FB /* CS-250-Project-1 */ = {
+		10F9DD6F21A6321900303D48 /* CS-250_Lab5_client */ = {
 			isa = PBXGroup;
 			children = (
-				1037C499219E599B005314FB /* main.c */,
-				100AAECA219E6C880023B699 /* ConnectionHelper.c */,
-				10356DC721A3480600FC0716 /* CaesarCipher.c */,
+				10F9DD7721A6323700303D48 /* DieWithError.c */,
+				10F9DD7A21A6323800303D48 /* EchoClientUDP.c */,
+				10F9DD7821A6323800303D48 /* Makefile */,
 			);
-			path = "CS-250-Project-1";
+			path = "CS-250_Lab5_client";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1037C495219E599B005314FB /* CS-250-Project-1 */ = {
+		10F9DD6C21A6321900303D48 /* CS-250_Lab5_client */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1037C49D219E599B005314FB /* Build configuration list for PBXNativeTarget "CS-250-Project-1" */;
+			buildConfigurationList = 10F9DD7421A6321900303D48 /* Build configuration list for PBXNativeTarget "CS-250_Lab5_client" */;
 			buildPhases = (
-				1037C492219E599B005314FB /* Sources */,
-				1037C493219E599B005314FB /* Frameworks */,
-				1037C494219E599B005314FB /* CopyFiles */,
+				10F9DD6921A6321900303D48 /* Sources */,
+				10F9DD6A21A6321900303D48 /* Frameworks */,
+				10F9DD6B21A6321900303D48 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "CS-250-Project-1";
-			productName = "CS-250-Project-1";
-			productReference = 1037C496219E599B005314FB /* CS-250-Project-1 */;
+			name = "CS-250_Lab5_client";
+			productName = "CS-250_Lab5_client";
+			productReference = 10F9DD6D21A6321900303D48 /* CS-250_Lab5_client */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		1037C48E219E599B005314FB /* Project object */ = {
+		10F9DD6521A6321900303D48 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = Silvertap;
 				TargetAttributes = {
-					1037C495219E599B005314FB = {
+					10F9DD6C21A6321900303D48 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
-			buildConfigurationList = 1037C491219E599B005314FB /* Build configuration list for PBXProject "CS-250-Project-1" */;
+			buildConfigurationList = 10F9DD6821A6321900303D48 /* Build configuration list for PBXProject "CS-250_Lab5_client" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 1037C48D219E599B005314FB;
-			productRefGroup = 1037C497219E599B005314FB /* Products */;
+			mainGroup = 10F9DD6421A6321900303D48;
+			productRefGroup = 10F9DD6E21A6321900303D48 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1037C495219E599B005314FB /* CS-250-Project-1 */,
+				10F9DD6C21A6321900303D48 /* CS-250_Lab5_client */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		1037C492219E599B005314FB /* Sources */ = {
+		10F9DD6921A6321900303D48 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1037C49A219E599B005314FB /* main.c in Sources */,
-				10356DC821A3480600FC0716 /* CaesarCipher.c in Sources */,
-				100AAECB219E6C880023B699 /* ConnectionHelper.c in Sources */,
+				10F9DD7C21A6323800303D48 /* Makefile in Sources */,
+				10F9DD7B21A6323800303D48 /* DieWithError.c in Sources */,
+				10F9DD7E21A6323800303D48 /* EchoClientUDP.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		1037C49B219E599B005314FB /* Debug */ = {
+		10F9DD7221A6321900303D48 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -192,7 +192,7 @@
 			};
 			name = Debug;
 		};
-		1037C49C219E599B005314FB /* Release */ = {
+		10F9DD7321A6321900303D48 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -244,7 +244,7 @@
 			};
 			name = Release;
 		};
-		1037C49E219E599B005314FB /* Debug */ = {
+		10F9DD7521A6321900303D48 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -253,7 +253,7 @@
 			};
 			name = Debug;
 		};
-		1037C49F219E599B005314FB /* Release */ = {
+		10F9DD7621A6321900303D48 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -265,25 +265,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1037C491219E599B005314FB /* Build configuration list for PBXProject "CS-250-Project-1" */ = {
+		10F9DD6821A6321900303D48 /* Build configuration list for PBXProject "CS-250_Lab5_client" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1037C49B219E599B005314FB /* Debug */,
-				1037C49C219E599B005314FB /* Release */,
+				10F9DD7221A6321900303D48 /* Debug */,
+				10F9DD7321A6321900303D48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1037C49D219E599B005314FB /* Build configuration list for PBXNativeTarget "CS-250-Project-1" */ = {
+		10F9DD7421A6321900303D48 /* Build configuration list for PBXNativeTarget "CS-250_Lab5_client" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1037C49E219E599B005314FB /* Debug */,
-				1037C49F219E599B005314FB /* Release */,
+				10F9DD7521A6321900303D48 /* Debug */,
+				10F9DD7621A6321900303D48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 1037C48E219E599B005314FB /* Project object */;
+	rootObject = 10F9DD6521A6321900303D48 /* Project object */;
 }
