@@ -1,5 +1,5 @@
 //
-//  Main.c
+//  Server.c
 //  CS-250-Project-1
 //
 //  Created by william wright on 11/15/18.
@@ -294,20 +294,26 @@ int main()
                                 if (strncmp(buffer, "IDCO", 4) == 0) {
                                      if (strcmp(ccon,"") == 0) {//if the ID dosent have an contanite then we tell the Client
                                          printf("%d :Dosent Have a contanite, Telling: %s\n",cid,inet_ntoa(cliaddr.sin_addr));
-                                         char message[]="The Counrty ID You Requested Dosent Have a Contanite";
+                                         char message[]="The Counrty ID You Requested Dosent Have a continent";
                                          sendmessage(connfd,message,strlen(message));
                                     }else{//if it dose have one we send it
                                         printf("Sent Country Continante: %s : to %s\n",ccon,inet_ntoa(cliaddr.sin_addr));
-                                        sendmessage(connfd,ccon,strlen(ccon));
+                                        char message[MAXLINE];
+                                        sprintf(message, "Country's continent: %s",ccon);
+                                        sendmessage(connfd,message,strlen(message));
                                     }
                                 }
                                 if (strncmp(buffer, "IDCC", 4) == 0){
                                     printf("Sent Country Code: %s : to %s\n",countrycode,inet_ntoa(cliaddr.sin_addr));
-                                    sendmessage(connfd,countrycode,strlen(countrycode));
+                                    char message[MAXLINE];
+                                    sprintf(message, "Country Code: %s",countrycode);
+                                    sendmessage(connfd,message,strlen(message));
                                 }
                                 if (strncmp(buffer, "IDCN", 4) == 0) {
                                     printf("Sent Country Name: %s : to %s\n",cname,inet_ntoa(cliaddr.sin_addr));
-                                    sendmessage(connfd,cname,strlen(cname));
+                                    char message[MAXLINE];
+                                    sprintf(message, "Country Name: %s",cname);
+                                    sendmessage(connfd,message,strlen(message));
                                 }
                                 printf("Disconnected From %s \n",inet_ntoa(cliaddr.sin_addr));
                                 exit(1);

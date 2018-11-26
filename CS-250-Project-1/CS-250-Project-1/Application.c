@@ -1,5 +1,5 @@
 //
-//  main.c
+//  Application.c
 //  CS-250-Project-1
 //
 //  Created by william wright on 11/15/18.

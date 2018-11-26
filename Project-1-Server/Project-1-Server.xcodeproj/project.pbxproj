@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		100AAED9219E78EA0023B699 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 100AAED8219E78EA0023B699 /* main.c */; };
-		100AAEE0219E7DCD0023B699 /* DieWithError.c in Sources */ = {isa = PBXBuildFile; fileRef = 100AAEDF219E7DCD0023B699 /* DieWithError.c */; };
+		100AAED9219E78EA0023B699 /* Server.c in Sources */ = {isa = PBXBuildFile; fileRef = 100AAED8219E78EA0023B699 /* Server.c */; };
 		10356DCA21A36DF600FC0716 /* CaesarCipher.c in Sources */ = {isa = PBXBuildFile; fileRef = 10356DC921A36DF600FC0716 /* CaesarCipher.c */; };
 /* End PBXBuildFile section */
 
@@ -26,8 +25,7 @@
 
 /* Begin PBXFileReference section */
 		100AAED5219E78EA0023B699 /* Project-1-Server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Project-1-Server"; sourceTree = BUILT_PRODUCTS_DIR; };
-		100AAED8219E78EA0023B699 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		100AAEDF219E7DCD0023B699 /* DieWithError.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DieWithError.c; sourceTree = "<group>"; };
+		100AAED8219E78EA0023B699 /* Server.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Server.c; sourceTree = "<group>"; };
 		10356DC621A3473500FC0716 /* Quote_File.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Quote_File.txt; sourceTree = "<group>"; };
 		10356DC921A36DF600FC0716 /* CaesarCipher.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CaesarCipher.c; sourceTree = "<group>"; };
 		10BE441321AB3ACE00FFB80C /* Country_DB.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = Country_DB.csv; sourceTree = "<group>"; };
@@ -65,9 +63,8 @@
 			isa = PBXGroup;
 			children = (
 				10BE441421AC6C0000FFB80C /* ServerConfig.ini */,
-				100AAEDF219E7DCD0023B699 /* DieWithError.c */,
 				10BE441321AB3ACE00FFB80C /* Country_DB.csv */,
-				100AAED8219E78EA0023B699 /* main.c */,
+				100AAED8219E78EA0023B699 /* Server.c */,
 				10356DC621A3473500FC0716 /* Quote_File.txt */,
 				10356DC921A36DF600FC0716 /* CaesarCipher.c */,
 			);
@@ -130,9 +127,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				100AAED9219E78EA0023B699 /* main.c in Sources */,
+				100AAED9219E78EA0023B699 /* Server.c in Sources */,
 				10356DCA21A36DF600FC0716 /* CaesarCipher.c in Sources */,
-				100AAEE0219E7DCD0023B699 /* DieWithError.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

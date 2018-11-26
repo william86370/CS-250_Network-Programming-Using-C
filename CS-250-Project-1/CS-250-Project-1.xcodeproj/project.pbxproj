@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		100AAECB219E6C880023B699 /* ConnectionHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 100AAECA219E6C880023B699 /* ConnectionHelper.c */; };
+		100AAECB219E6C880023B699 /* Client.c in Sources */ = {isa = PBXBuildFile; fileRef = 100AAECA219E6C880023B699 /* Client.c */; };
 		10356DC821A3480600FC0716 /* CaesarCipher.c in Sources */ = {isa = PBXBuildFile; fileRef = 10356DC721A3480600FC0716 /* CaesarCipher.c */; };
-		1037C49A219E599B005314FB /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 1037C499219E599B005314FB /* main.c */; };
+		1037C49A219E599B005314FB /* Application.c in Sources */ = {isa = PBXBuildFile; fileRef = 1037C499219E599B005314FB /* Application.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,10 +25,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		100AAECA219E6C880023B699 /* ConnectionHelper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ConnectionHelper.c; sourceTree = "<group>"; };
+		100AAECA219E6C880023B699 /* Client.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Client.c; sourceTree = "<group>"; };
 		10356DC721A3480600FC0716 /* CaesarCipher.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CaesarCipher.c; sourceTree = "<group>"; };
 		1037C496219E599B005314FB /* CS-250-Project-1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CS-250-Project-1"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1037C499219E599B005314FB /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		1037C499219E599B005314FB /* Application.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Application.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +61,8 @@
 		1037C498219E599B005314FB /* CS-250-Project-1 */ = {
 			isa = PBXGroup;
 			children = (
-				1037C499219E599B005314FB /* main.c */,
-				100AAECA219E6C880023B699 /* ConnectionHelper.c */,
+				1037C499219E599B005314FB /* Application.c */,
+				100AAECA219E6C880023B699 /* Client.c */,
 				10356DC721A3480600FC0716 /* CaesarCipher.c */,
 			);
 			path = "CS-250-Project-1";
@@ -124,9 +124,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1037C49A219E599B005314FB /* main.c in Sources */,
+				1037C49A219E599B005314FB /* Application.c in Sources */,
 				10356DC821A3480600FC0716 /* CaesarCipher.c in Sources */,
-				100AAECB219E6C880023B699 /* ConnectionHelper.c in Sources */,
+				100AAECB219E6C880023B699 /* Client.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
