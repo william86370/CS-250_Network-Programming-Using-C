@@ -31,6 +31,7 @@
 		10356DC621A3473500FC0716 /* Quote_File.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Quote_File.txt; sourceTree = "<group>"; };
 		10356DC921A36DF600FC0716 /* CaesarCipher.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CaesarCipher.c; sourceTree = "<group>"; };
 		10BE441321AB3ACE00FFB80C /* Country_DB.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = Country_DB.csv; sourceTree = "<group>"; };
+		10BE441421AC6C0000FFB80C /* ServerConfig.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ServerConfig.ini; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 		100AAED7219E78EA0023B699 /* Project-1-Server */ = {
 			isa = PBXGroup;
 			children = (
+				10BE441421AC6C0000FFB80C /* ServerConfig.ini */,
 				100AAEDF219E7DCD0023B699 /* DieWithError.c */,
 				10BE441321AB3ACE00FFB80C /* Country_DB.csv */,
 				100AAED8219E78EA0023B699 /* main.c */,

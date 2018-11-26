@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 int CaesarCipher(int option, char str[])
 {
    int i;
