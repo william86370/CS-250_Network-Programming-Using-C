@@ -32,8 +32,17 @@ void sendmessage(int sockfd,char input[],int len);
 void sendandrecieve(int sockfd,char input[],char output[]);
 int main()
 {
-    //file io setup
+    printf("|------------------------------------------------------------------------------------------|\n");
+    printf("|                              CS-250 Project-1 UDP-TCP Server                             |\n");
+    printf("|                                Developed By William Wright                               |\n");
+    printf("|     When Launched The Server will bind to port 5000 on TCP and open a Listener on UDP    |\n");
+    printf("|     The Server Will Spawn New Childs For Each Connection And Kill Them On Disconnect     |\n");
+    printf("|------------------------------------------------------------------------------------------|\n");
     
+    
+    //------------------------------------------------------------|
+    //here we open both the quote of the day file and the Country database file to see if they exist.
+    //we also get a coiunter from the QOTD file to see how long it is and save that to Count2
     FILE *fp;//our file
     int count2 = 0;  // Line counter (result)
     char filename[] = "Quote_File.txt";
@@ -52,11 +61,16 @@ int main()
             count2 = count2 + 1;
     // Close the file
     fclose(fp);
+    //------------------------------------------------------------|
     
+    //------------------------------------------------------------|
+    //here we create the arrays that are going to be filled with the likes and dislikes
     int reactionarraylike[100] = { 0 };;
     int reactionarraydislike[100] = { 0 };;
+    //------------------------------------------------------------|
     
-    
+    //------------------------------------------------------------|
+    //here we setup the varables for the lissiner for TCP And UDP
     int listenfd, connfd, udpfd, nready, maxfdp1;
     char buffer[MAXLINE];
     pid_t childpid;
@@ -65,30 +79,28 @@ int main()
     socklen_t len;
     const int on = 1;
     struct sockaddr_in cliaddr, servaddr;
-    
     void sig_chld(int);
-    //setup the time settings for udp
+    //------------------------------------------------------------|
+    
+    //------------------------------------------------------------|
+    //This is where we setup the random number generator for our UDP Return
     time_t rawtime;
     struct tm *info;
     time(&rawtime);
     /* Get GMT time */
     info = gmtime(&rawtime );
+    //------------------------------------------------------------|
     
-    printf("|------------------------------------------------------------------------------------------|\n");
-    printf("|                              CS-250 Project-1 UDP-TCP Server                             |\n");
-    printf("|                                Developed By William Wright                               |\n");
-    printf("|     When Launched The Server will bind to port 5000 on TCP and open a Listener on UDP    |\n");
-    printf("|     The Server Will Spawn New Childs For Each Connection And Kill Them On Disconnect     |\n");
-    printf("|------------------------------------------------------------------------------------------|\n");
-    printf("Setting Up Connection....\n");
-    char * sendtime = "nah";
+    //------------------------------------------------------------|
+    //We Create the Struct for UDP And TCP and assign a lissiner
+   printf("Setting Up Connection....\n");
+    char * sendtime = "Wrong Command";
     /* create listening TCP socket */
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(PORT);
-    
     // binding server addr structure to listenfd
     bind(listenfd, (struct sockaddr*)&servaddr, sizeof(servaddr));
     listen(listenfd, 20);
@@ -106,11 +118,15 @@ int main()
     // get maxfd
     maxfdp1 = max(listenfd, udpfd) + 1;
     int lastsentline= 0;
+    //------------------------------------------------------------|
+    
+    //------------------------------------------------------------|
+    //here we create the for loop that allows the server to run infinadanlty untill the process is killed
     for (;;) {
-        //added piping so child could talk to parent
-        int fd[2];
+        int fd[2]; //define our two pipes for talking
         if ( pipe(fd) < 0 ) {
-            perror( "pipe" );
+            perror( "Couldnt Create pipe" );
+            exit(1);
         }
         printf("--------------------------\n");
         printf("Waiting For Connection....\n");
@@ -121,6 +137,7 @@ int main()
         // select the ready descriptor
         nready = select(maxfdp1, &rset, NULL, NULL, NULL);
         
+        //------------------------------------------------------------|
         // if tcp socket is readable then handle
         // it by accepting the connection
         if (FD_ISSET(listenfd, &rset)) {
@@ -131,45 +148,43 @@ int main()
                 close(listenfd);
                 //close the other pipe
                 close(fd[0]);
-                
                 bzero(buffer, sizeof(buffer));
                 printf("Connected To: %s\n",inet_ntoa(cliaddr.sin_addr));
-                read(connfd, buffer, sizeof(buffer));
-                CaesarCipher(2,buffer);
-                writepipe(fd[1], buffer,sizeof(buffer));
-                if (strncmp(buffer, "LIKE", 4) == 0) {
+                read(connfd, buffer, sizeof(buffer));//Recieve the TCP Request From Client
+                CaesarCipher(2,buffer);//Decript the TCP Packet
+                writepipe(fd[1], buffer,sizeof(buffer));//Send a Copy of the decripted packet to parent for processing and logging
+                if (strncmp(buffer, "LIKE", 4) == 0) { //if the message from client containded "like" we go into this IF allowing us to like the QOTD they recieved
                     int count3=0;
-                     sscanf(buffer, "LIKE%d", &count3);
+                    sscanf(buffer, "LIKE%d", &count3);
                     printf("the line is%d was added\n",count3);
-                    reactionarraylike[count3]++;
+                    reactionarraylike[count3]++;//update the array with the line they liked
                     printf("%s Liked the Quote Of the Day\n",inet_ntoa(cliaddr.sin_addr));
                     char input[]="Liked Message";
-                    sendmessage(connfd,input,strlen(input));
+                    sendmessage(connfd,input,strlen(input));//our helper to send the message backto the client
                     shutdown(connfd,0);
                     _Exit(4);
                 }
-                if (strncmp(buffer, "DISLIKE", 7) == 0) {
+                if (strncmp(buffer, "DISLIKE", 7) == 0) {//if the message from client containded "Dislike" we go into this IF allowing us to dislike the QOTD they recieved
                     int count3=0;
-                     sscanf(buffer, "DISLIKE%d", &count3);
+                    sscanf(buffer, "DISLIKE%d", &count3);
                     printf("the line %d was disliked\n",count3);
-                    reactionarraydislike[count3]++;
+                    reactionarraydislike[count3]++;//update the dislike array so it wont send that quote anymore
                     printf("%s Disliked the Quote Of the Day\n",inet_ntoa(cliaddr.sin_addr));
                     char input[]="Disliked Message";
-                    sendmessage(connfd,input,strlen(input));
+                    sendmessage(connfd,input,strlen(input));//our helper to send the message backto the client
                     shutdown(connfd,0);
                     exit(1);
                 }
-                if(strcmp(buffer,"EXIT") == 0){
+                if(strcmp(buffer,"EXIT") == 0){//if the message from client containded "EXIT" we go into this IF allowing us to process that the client didnt Like Or dislike the QOTD
                     printf("\nDisconnected From %s \n",inet_ntoa(cliaddr.sin_addr));
                     char input[]="Killing";
-                    sendmessage(connfd,input,strlen(input));
+                    sendmessage(connfd,input,strlen(input));//our helper to send the message backto the client
                     shutdown(connfd,0);
                     exit(1);
                 }
-                if(strcmp(buffer,"LISTALL") == 0){
+                if(strcmp(buffer,"LISTALL") == 0){//this was a test function allowing us to print the arrays
                     printf("\nDisconnected From %s \n",inet_ntoa(cliaddr.sin_addr));
                     char input[count2];
-                    
                     for(int h=0;h<count2;h++){
                         printf("%d",reactionarraydislike[h]);
                         sprintf(input, "%s:%d", input, reactionarraydislike[h]);
@@ -178,7 +193,7 @@ int main()
                     shutdown(connfd,0);
                     exit(1);
                 }
-                if(strcmp(buffer,"QOTD") == 0){
+                if(strcmp(buffer,"QOTD") == 0){//when the server recived "QOTD" we open the file and selct a quote at random
                     printf("%s Is Requesting Quote Of the Day\n",inet_ntoa(cliaddr.sin_addr));
                     char line[256];
                     bzero(line, sizeof(line));
@@ -201,9 +216,9 @@ int main()
                             {
                                 char Output[MAXLINE];
                                 sprintf(Output, "%02d%s", count, line);
-                                CaesarCipher(1,Output);
-                                write(connfd,(const char*)Output, sizeof(buffer));
-                                shutdown(connfd,0);
+                                CaesarCipher(1,Output);//encript the message to the client
+                                write(connfd,(const char*)Output, sizeof(buffer));//send the message to the client
+                                shutdown(connfd,0);//end all traffic
                                 printf("Sent Quote Of the Day to %s\n",inet_ntoa(cliaddr.sin_addr));
                                 printf("Disconnected From %s \n",inet_ntoa(cliaddr.sin_addr));
                                 lastsentline = count;
@@ -224,7 +239,7 @@ int main()
                     }
                 }
                 //get county code from ID
-                if (strncmp(buffer, "IDCC", 4) == 0) {
+                if (strncmp(buffer, "IDCC", 4) == 0) {//when the server asks us to get a country code from a country ID
                     char countryid[MAXLINE] ;
                     sscanf(buffer, "IDCC%s", &countryid);
                     char line[256];
