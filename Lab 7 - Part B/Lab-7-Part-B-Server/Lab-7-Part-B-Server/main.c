@@ -1,6 +1,6 @@
 //
 //  main.c
-//  Lab 7 - Part B
+//  Lab-7-Part-B-Server
 //
 //  Created by Anonymous on 12/5/18.
 //  Copyright © 2018 SilverTap. All rights reserved.
